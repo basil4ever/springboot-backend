@@ -1,6 +1,8 @@
 package net.javaguides.springbootbackend.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -22,6 +24,15 @@ public class Employee {
 
     @Column(name = "email_id")
     private String emailId;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    name = "employee_files",
+    joinColumns = @JoinColumn(name = "employees_id"),
+    inverseJoinColumns = @JoinColumn(name = "file_id"))
+    private Set<File> files = new HashSet<>();
+
+
     public Employee() {
 
     }
@@ -64,5 +75,10 @@ public class Employee {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
+
+    public Set<File> getFiles() { return files; }
+
+    public void setFiles(Set<File> files) { this.files = files; }
+
 }
 
