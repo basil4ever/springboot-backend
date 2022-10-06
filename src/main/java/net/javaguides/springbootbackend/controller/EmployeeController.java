@@ -52,7 +52,7 @@ public class EmployeeController {
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable(value = "id") Long id)
             throws ResourceNotFoundException {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id : " + id));
 
         employeeRepository.delete(employee);
         Map<String, Boolean> response = new HashMap<>();

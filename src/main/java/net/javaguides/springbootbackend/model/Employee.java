@@ -32,6 +32,9 @@ public class Employee {
     inverseJoinColumns = @JoinColumn(name = "file_id"))
     private Set<File> files = new HashSet<>();
 
+    @OneToMany(mappedBy = "employee")
+    private Set<Invoice> invoices;
+
 
     public Employee() {
 
