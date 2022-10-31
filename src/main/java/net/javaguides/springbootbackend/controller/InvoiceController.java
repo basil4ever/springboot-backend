@@ -1,9 +1,11 @@
 package net.javaguides.springbootbackend.controller;
 
 
+import net.javaguides.springbootbackend.dto.InvoiceReportDTO;
 import net.javaguides.springbootbackend.exception.ResourceNotFoundException;
 import net.javaguides.springbootbackend.model.Invoice;
 import net.javaguides.springbootbackend.repository.InvoiceRepository;
+import net.javaguides.springbootbackend.services.InvoiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ import java.util.Map;
 public class InvoiceController {
 
     @Autowired
+    private InvoiceServiceImpl invoiceService;
+
+    @Autowired
     private InvoiceRepository invoiceRepository;
 
     @GetMapping()
@@ -24,7 +29,11 @@ public class InvoiceController {
         return invoiceRepository.findAll();
     }
 
-
+    @GetMapping("/pie-chart-data")
+    public ResponseEntity<List<InvoiceReportDTO>> getDataForPieChart() {
+        List<InvoiceReportDTO> reports = invoiceService.sumInvoiceByEmployee();
+        return ResponseEntity.ok(reports);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Invoice> getInvoiceById(@PathVariable Long id) {
         Invoice invoice = invoiceRepository.findById(id)
@@ -52,4 +61,6 @@ public class InvoiceController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
+
 }
